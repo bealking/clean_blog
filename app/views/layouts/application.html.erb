@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>史矛革的博客</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag    'https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag 'https://cdn.staticfile.org/react/16.4.0/umd/react.development.js', media: 'all' %>
+    <%= javascript_include_tag 'https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js', media: 'all' %>
+    <%= javascript_include_tag 'https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js', media: 'all' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
