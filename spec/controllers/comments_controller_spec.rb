@@ -1,10 +1,41 @@
 require 'rails_helper'
 
 require './lib/blog_app/entities/comment'
+require './lib/blog_app/entities/user'
 require './lib/blog_app/use_cases/add_comment'
+require './lib/blog_app/use_cases/dig_comment'
 require './lib/blog_app/use_cases/list_comments'
 
 RSpec.describe CommentsController do
+
+  describe 'PUT /:id/dig' do
+    subject(:call) do
+      put :dig, params: {id: 3}
+    end
+
+    let(:params) do
+      {
+        comment_id: 3
+      }
+    end
+
+    let(:user) { User.create(email: 'bealking@gmail.com', password: '123456')}
+    let(:use_case) do
+      instance_double(BlogApp::UseCases::DigComment, execute: {message: 'OK'})
+    end
+
+    before do
+      allow(BlogApp::UseCases::DigComment).to receive(:new).and_return(use_case)
+
+      login_user user
+    end
+
+    it 'executes the dig-comment use-case with the comment' do
+      call
+      expect(use_case).to have_received(:execute).with({comment_id: '3', user_id: user.id})
+    end
+  end
+
   describe 'POST /' do
     subject(:call) do
       post :create, params: params

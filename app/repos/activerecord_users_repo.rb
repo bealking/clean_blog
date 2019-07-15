@@ -11,9 +11,9 @@ class ActiverecordUsersRepo < BlogApp::Repos::UsersRepo
     #controller.send(:after_login!, user, [user.send(user.sorcery_config.username_attribute_names.first), 'secret'])
   end
 
-  def query(params)
-    #@controller.send(:auto_login, user)
-    #@controller.send(:after_login!, user, [user.send(user.sorcery_config.username_attribute_names.first), 'secret'])
-    #User.where(params).domain_object
+  def dig(user_id, comment_id)
+    Follow.create!(follower_type: 'User', follower_id: user_id, followable_id: comment_id, followable_type: 'Comment')
+    comment = Comment.find(comment_id)
+    comment.commentable.increment!(:follows_count)
   end
 end

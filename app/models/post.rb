@@ -1,6 +1,8 @@
 require './lib/blog_app/entities/post'
 
 class Post < ApplicationRecord
+  has_many :comments
+
   DOMAIN_OBJECT_CLASS = BlogApp::Entities::Post
 
   def domain_object

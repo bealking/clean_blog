@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
+  has_many :follows
 
   DOMAIN_OBJECT_CLASS = BlogApp::Entities::User
 
