@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     end
   end
   resources :posts, only: [:create, :index, :show]
+  resources :articles, only: [:create, :show]
   resources :users, only: [:create, :new] do
     collection do
       get :not_authenticated
