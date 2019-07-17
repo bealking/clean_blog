@@ -32,4 +32,5 @@ test:
 
 production:
   <<: *default
+  encoding: utf8
   database: blog_production
