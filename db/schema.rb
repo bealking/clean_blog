@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_203054) do
+ActiveRecord::Schema.define(version: 2019_07_17_081736) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
-    t.string "body"
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "follows_count", default: 0
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
@@ -47,10 +48,10 @@ ActiveRecord::Schema.define(version: 2019_07_15_203054) do
   create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
-    t.string "body"
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "follows_count", default: 0, null: false
+    t.integer "follows_count", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 

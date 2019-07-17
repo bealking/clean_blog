@@ -4,8 +4,6 @@ ruby '2.6.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
-#gem 'pg'
-gem 'mysql2'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -34,6 +32,12 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'sorcery'
 gem 'dotenv-rails'
+gem 'searchkick'
+gem 'kaminari'
+
+group :production do
+  gem 'pg'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -41,6 +45,7 @@ group :development, :test do
   gem 'pry'
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'mysql2'
 end
 
 group :development do

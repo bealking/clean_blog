@@ -3,7 +3,11 @@ require './lib/blog_app/entities/post'
 
 class ActiverecordPostsRepo < BlogApp::Repos::PostsRepo
   def create(post)
-    Post.create!(post.to_h).domain_object
+    if post.valid?
+      Post.create!(post.to_h).domain_object
+    else
+      post.errors.full_messages
+    end
   end
 
   def list

@@ -38,7 +38,7 @@ RSpec.describe PostsController do
     it 'serializes and renders the response' do
       call
 
-      expected = params.merge(created_at: nil, updated_at: nil, id: nil, user_id: user.id)
+      expected = params.merge(created_at: nil, updated_at: nil, id: nil, user_id: user.id, follows_count: 0)
       expect(Oj.load(response.body, symbol_keys: true)).to eq(expected)
     end
   end
@@ -74,7 +74,7 @@ RSpec.describe PostsController do
       call
 
       expected_list = 2.times.map do
-        post_attrs.merge(created_at: nil, updated_at: nil, id: nil)
+        post_attrs.merge(created_at: nil, updated_at: nil, id: nil, follows_count: 0)
       end
       expect(Oj.load(response.body, symbol_keys: true)).to eq(expected_list)
     end

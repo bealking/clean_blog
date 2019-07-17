@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
   def index
     use_case = BlogApp::UseCases::ListComments.new(comments_repo: ActiverecordCommentsRepo.new)
     result = use_case.execute query_params
-    render json: result.map { |post| CommentsSerializer.new(post).as_json }
+    render json: result.map { |comment| CommentsSerializer.new(comment).as_json }
   end
 
   def dig

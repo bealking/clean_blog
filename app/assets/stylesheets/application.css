@@ -56,3 +56,23 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.help-block a:hover, table a:hover, blockquote a:hover {
+  background-color: transparent;
+}
+.clusters-list {
+  margin: 40px 15px;
+}
+#logout {
+  color: #9d9d9d;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 16px;
+  line-height: 20px;
+}
+.form-actions {
+  margin: 8px auto;
+}
+.form-actions a {
+  color: #fff;
+  margin-right: 10px
+}

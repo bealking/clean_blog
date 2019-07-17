@@ -6,7 +6,7 @@ class BlogApp::UseCases::LoginUser
     @controller = controller
   end
 
-  def execute(params)
-    @users_repo.login(params, @controller)
+  def execute(user)
+    @users_repo.login(user, @controller)
   end
 end

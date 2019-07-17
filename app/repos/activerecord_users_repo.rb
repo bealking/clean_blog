@@ -3,17 +3,28 @@ require './lib/blog_app/entities/user'
 
 class ActiverecordUsersRepo < BlogApp::Repos::UsersRepo
   def create(user)
-    User.create!(user.to_h).domain_object
+    if user.valid?
+      User.create!(user.to_h).domain_object
+    else
+      user.errors.full_messages
+    end
   end
 
-  def login(params, controller)
-    controller.login(params[:email], params[:password])&.domain_object
-    #controller.send(:after_login!, user, [user.send(user.sorcery_config.username_attribute_names.first), 'secret'])
+  def login(user, controller)
+    if user.valid?
+      controller.login(user.email, user.password)&.domain_object
+    else
+      user.errors.full_messages
+    end
   end
 
   def dig(user_id, comment_id)
-    Follow.create!(follower_type: 'User', follower_id: user_id, followable_id: comment_id, followable_type: 'Comment')
-    comment = Comment.find(comment_id)
-    comment.commentable.increment!(:follows_count)
+    follow = Follow.find_or_initialize_by(follower_type: 'User', follower_id: user_id, followable_id: comment_id, followable_type: 'Comment')
+
+    if follow.new_record?
+      follow.save
+      comment = Comment.find(comment_id)
+      comment.commentable.increment!(:follows_count)
+    end
   end
 end

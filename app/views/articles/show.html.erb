@@ -1,0 +1,19 @@
+      <div class="page-header">
+        <h1 class="text-center"><%= @result.title %></h1>
+        <p class="lead"><%= @result.body %></p>
+      </div>
+
+			<h3>评论列表</h3>
+			<div id="comment-list" class="comment-list">
+
+      </div>
+
+    </div> <!-- /container -->
+
+    <%= javascript_include_tag 'comments', type: 'text/babel' %>
+<script type="text/babel">
+	ReactDOM.render(
+    <CommentsList objectId="<%= @result.id %>" objectType="Article" userId="<%= current_user.try(:id) %>" />,
+		document.getElementById('comment-list')
+	);
+</script>

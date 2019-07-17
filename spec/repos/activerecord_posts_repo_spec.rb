@@ -1,5 +1,6 @@
 require 'rails_helper'
 require './lib/blog_app/entities/post'
+require './lib/blog_app/entities/user'
 
 RSpec.describe ActiverecordPostsRepo do
   let(:user) { User.create(email: 'bealking@gmail.com', password: '123456')}
@@ -23,10 +24,17 @@ RSpec.describe ActiverecordPostsRepo do
         title: domain_obj.title,
         body: domain_obj.body,
         id: post.id,
+        follows_count: 0,
         created_at: post.created_at,
         updated_at: post.updated_at
       )
       expect(response).to eq(expected_response)
+    end
+
+    it 'returns errors when post is invalid' do
+      domain_obj.title = nil
+      response = subject.create(domain_obj)
+      expect(response).to eq ['标题不能为空字符']
     end
   end
 
@@ -58,6 +66,7 @@ RSpec.describe ActiverecordPostsRepo do
         title: post.title,
         body: post.body,
         id: post.id,
+        follows_count: 0,
         created_at: post.created_at,
         updated_at: post.updated_at
       )

@@ -1,0 +1,160 @@
+
+			<div id="clusters-list">
+      </div>
+<script type="text/babel">
+
+	class ClustersList extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				error: null,
+				items: [],
+        pageInfo: {},
+        queryParams: {}
+			};
+
+			this.handleClick = this.handleClick.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.goNext = this.goNext.bind(this);
+      this.goPrevious = this.goPrevious.bind(this);
+      this.loadData = this.loadData.bind(this);
+		}
+
+    renderListItem(items) {
+      return items.map((item, index) =>
+        <tr key={index}>
+          <th scope="row">{item.kind}</th>
+          <td><a href={this.renderObjectLink(item)}>{item.title}</a></td>
+          <td>{item.follows_count}</td>
+          <td>{item.created_at}</td>
+        </tr>
+      );
+    }
+
+    renderObjectLink(item) {
+      return [item.kind+'s', item.id].join('/');
+    }
+
+    handleChange(event) {
+      if(event.target.name=='follows-count-filter') {
+        let params = this.state.queryParams;
+        if(typeof(params.follows_count)=="undefined") {
+          params['follows_count'] = {gt: 3}
+        } else {
+          params['follows_count'] = {gt: -1}
+        }
+
+        this.setState({
+          queryParams: params
+        })
+
+        this.loadData();
+      }
+    }
+
+    componentDidMount() {
+      this.loadData();
+    }
+
+    loadData() {
+      let params = this.state.queryParams;
+
+      fetch("/clusters.json", {
+          method: 'POST',
+          body: JSON.stringify(params),
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          })
+        })
+				.then(res => res.json())
+				.then(
+					(result) => {
+            this.setState({
+              items: this.renderListItem(result.objects),
+              pageInfo: result.page_info
+            });
+					}
+				)
+    }
+
+    goNext() {
+      let params = this.state.queryParams;
+      params['page'] = this.state.pageInfo.next_page;
+      this.setState({
+        queryParams: params
+      })
+      this.loadData();
+    }
+
+    goPrevious() {
+      let params = this.state.queryParams;
+      params['page'] = this.state.pageInfo.previous_page;
+      this.setState({
+        queryParams: params
+      })
+      this.loadData();
+    }
+
+		handleClick(event) {
+      event.preventDefault();
+		  let user_email = this.refs.userEmail.value;
+      let params = this.state.queryParams;
+      if(user_email) {
+        params['user_email'] = user_email;
+      } else {
+        delete params.user_email
+      }
+      this.setState({
+        queryParams: params
+      })
+      this.loadData();
+		}
+
+		render() {
+			return (
+			<div className="clusters-list">
+        <form className="navbar-form navbar-left" role="search">
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="键入用户名" ref="userEmail" />
+          </div>
+          <button type="submit" className="btn btn-default" onClick={this.handleClick}>查看Ta赞过的</button>
+          <div className="checkbox">
+            <label>
+              <input type="checkbox" onChange={this.handleChange} name="follows-count-filter" /> 只看3赞以上
+            </label>
+          </div>
+        </form>
+				<div className="pull-right form-actions">
+					<a className="btn btn-info" href="/posts/new">发Post</a>
+					<a className="btn btn-info" href="/articles/new">发Article</a>
+				</div>
+ 				<table className="table table-striped">
+					<thead>
+						<tr>
+							<th>类别</th>
+							<th>标题</th>
+							<th>点赞数</th>
+							<th>发布时间</th>
+						</tr>
+					</thead>
+          <tbody>
+            {this.state.items}
+          </tbody>
+				</table>
+        <nav aria-label="...">
+           <ul className="pager">
+             <li className="{this.state.pageInfo.previous_page===null ? 'disabled' : ''}"><a href="javascript:;" onClick={this.goPrevious}>上一页</a></li>
+             <li className="{this.state.pageInfo.next_page===null ? 'disabled' : ''}"><a href="javascript:;" onClick={this.goNext}>下一页</a></li>
+           </ul>
+        </nav>
+      </div>
+			);
+		}
+	}
+
+	ReactDOM.render(
+    <ClustersList />,
+		document.getElementById('clusters-list')
+	);
+
+</script>

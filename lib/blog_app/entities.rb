@@ -1,7 +1,10 @@
 require_relative '../blog_app'
+require 'active_model'
 
 module BlogApp::Entities
   class Base
+    include ::ActiveModel::Validations
+
     ATTRIBUTES = %i[
       id
       created_at

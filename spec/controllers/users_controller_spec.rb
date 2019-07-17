@@ -40,7 +40,7 @@ RSpec.describe UsersController, type: :controller do
         call
 
         result = Oj.load(response.body, symbol_keys: true)
-        expect(result[:code]).to eq 'common.login_failed'
+        expect(result[:code]).to eq 'common.bad_argument'
       end
 
       it 'login succeed' do
@@ -75,6 +75,7 @@ RSpec.describe UsersController, type: :controller do
 
     before do
       allow(BlogApp::UseCases::AddUser).to receive(:new).and_return(use_case)
+      allow_any_instance_of(BlogApp::Entities::User).to receive(:id).and_return(true)
     end
 
     it 'executes the add-post use-case with the post' do

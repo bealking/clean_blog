@@ -8,4 +8,6 @@ class BlogApp::Entities::Comment < BlogApp::Entities::Base
     commentable_id
   ]
   attr_accessor *ATTRIBUTES
+
+  validates_presence_of :body, :user_id, :commentable_id, :commentable_type
 end

@@ -22,6 +22,7 @@ RSpec.describe BlogApp::Entities::Post do
           user_id: 3,
           title: 'fake-title',
           body: 'fake body text',
+          follows_count: 0,
           created_at: nil,
           updated_at: nil,
           id: nil

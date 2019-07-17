@@ -6,4 +6,7 @@ class BlogApp::Entities::User < BlogApp::Entities::Base
     password
   ]
   attr_accessor *ATTRIBUTES
+
+  validates_presence_of :password, :email
+  validates_length_of :password, minimum: 6
 end
