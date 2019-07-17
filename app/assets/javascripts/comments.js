@@ -6,6 +6,7 @@
 			};
 
 			this.handleClick = this.handleClick.bind(this);
+			this.handleDig = this.handleDig.bind(this);
       this.loadData = this.loadData.bind(this);
 		}
 
@@ -14,8 +15,12 @@
 				<blockquote key={index}>
 					<p>{item.body}</p>
 					<footer>
-            <span>{item.created_at}</span>
-            <div className="pull-right"><a href="javascript:;" data-id={item.id} onClick={this.handleDig}>赞</a></div>
+            <span>{item.created_at} by {item.user_email}</span>
+            <div className="pull-right">
+              {(this.props.userId && !item.is_followed) &&
+                <a href="javascript:;" data-id={item.id} onClick={this.handleDig}>赞</a>
+              }
+            </div>
           </footer>
 				</blockquote>
       )

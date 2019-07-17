@@ -1,4 +1,5 @@
 require './lib/blog_app/entities/post'
+require './lib/blog_app/entities/user'
 
 class Post < ApplicationRecord
   has_many :comments
@@ -8,8 +9,6 @@ class Post < ApplicationRecord
 
   def search_data
     {
-      id: id,
-      type: 'post',
       title: title,
       follows_count: follows_count,
       user_email: user.email

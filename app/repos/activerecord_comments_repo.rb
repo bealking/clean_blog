@@ -8,7 +8,7 @@ class ActiverecordCommentsRepo < BlogApp::Repos::CommentsRepo
   end
 
   def list(params)
-    Comment.where(commentable_type: params[:commentable_type], commentable_id: params[:commentable_id]).limit(params[:limit] || 3).order(created_at: :desc).all.map(&:domain_object)
+    Comment.includes(:user).where(commentable_type: params[:commentable_type], commentable_id: params[:commentable_id]).limit(params[:limit] || 3).order(created_at: :desc).all.map(&:domain_object)
   end
 
 end

@@ -1,7 +1,9 @@
 require './lib/blog_app/use_cases/add_comment'
 require './lib/blog_app/use_cases/dig_comment'
 require './lib/blog_app/use_cases/list_comments'
+require './lib/blog_app/use_cases/list_follows'
 require './lib/blog_app/entities/comment'
+require './lib/blog_app/entities/follow'
 
 class CommentsController < ApplicationController
   before_action :require_login, only: [:create, :dig]
@@ -17,7 +19,11 @@ class CommentsController < ApplicationController
   def index
     use_case = BlogApp::UseCases::ListComments.new(comments_repo: ActiverecordCommentsRepo.new)
     result = use_case.execute query_params
-    render json: result.map { |comment| CommentsSerializer.new(comment).as_json }
+
+    follow_case = BlogApp::UseCases::ListFollows.new(follows_repo: ActiverecordFollowsRepo.new)
+    follows = logged_in? ? follow_case.execute({follower_id: current_user.id, followable_id: result.map(&:id), followable_type: 'Comment'}) : []
+
+    render json: result.map { |comment| CommentsSerializer.new(comment, follows).as_json }
   end
 
   def dig

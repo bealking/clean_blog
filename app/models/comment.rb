@@ -6,6 +6,6 @@ class Comment < ApplicationRecord
 
   def domain_object
     attrs = attributes.symbolize_keys
-    DOMAIN_OBJECT_CLASS.new(attrs)
+    DOMAIN_OBJECT_CLASS.new(attrs).tap {|comment_entity| comment_entity.user = self.user}
   end
 end

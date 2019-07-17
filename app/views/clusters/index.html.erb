@@ -143,8 +143,8 @@
 				</table>
         <nav aria-label="...">
            <ul className="pager">
-             <li className="{this.state.pageInfo.previous_page===null ? 'disabled' : ''}"><a href="javascript:;" onClick={this.goPrevious}>上一页</a></li>
-             <li className="{this.state.pageInfo.next_page===null ? 'disabled' : ''}"><a href="javascript:;" onClick={this.goNext}>下一页</a></li>
+             <li className={this.state.pageInfo.previous_page===null ? 'disabled' : ''}><a href="javascript:;" onClick={this.goPrevious}>上一页</a></li>
+             <li className={this.state.pageInfo.next_page===null ? 'disabled' : ''}><a href="javascript:;" onClick={this.goNext}>下一页</a></li>
            </ul>
         </nav>
       </div>

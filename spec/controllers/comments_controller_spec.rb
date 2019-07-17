@@ -7,6 +7,11 @@ require './lib/blog_app/use_cases/dig_comment'
 require './lib/blog_app/use_cases/list_comments'
 
 RSpec.describe CommentsController do
+  let(:user) { User.create(email: 'bealking@gmail.com', password: '123456')}
+
+  before do
+    login_user user
+  end
 
   describe 'PUT /:id/dig' do
     subject(:call) do
@@ -19,7 +24,6 @@ RSpec.describe CommentsController do
       }
     end
 
-    let(:user) { User.create(email: 'bealking@gmail.com', password: '123456')}
     let(:use_case) do
       instance_double(BlogApp::UseCases::DigComment, execute: {message: 'OK'})
     end
@@ -50,7 +54,6 @@ RSpec.describe CommentsController do
       }
     end
 
-    let(:user) { User.create(email: 'bealking@gmail.com', password: '123456')}
     let(:result) { BlogApp::Entities::Comment.new(params) }
     let(:use_case) do
       instance_double(BlogApp::UseCases::AddComment, execute: result)
@@ -70,7 +73,7 @@ RSpec.describe CommentsController do
     it 'serializes and renders the response' do
       call
 
-      expected = params.merge(created_at: nil, updated_at: nil, id: nil, user_id: user.id)
+      expected = params.merge(created_at: nil, updated_at: nil, id: nil, user_id: user.id, is_followed: false)
       expect(Oj.load(response.body, symbol_keys: true)).to eq(expected)
     end
   end
@@ -107,7 +110,7 @@ RSpec.describe CommentsController do
       call
 
       expected_list = 2.times.map do
-        comment_attrs.merge(created_at: nil, updated_at: nil, id: nil)
+        comment_attrs.merge(created_at: nil, updated_at: nil, id: nil, is_followed: false)
       end
       expect(Oj.load(response.body, symbol_keys: true)).to eq(expected_list)
     end
