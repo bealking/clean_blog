@@ -8,6 +8,7 @@ class Article < ApplicationRecord
 
   def search_data
     {
+      object_type: 'article',
       title: title,
       follows_count: follows_count,
       user_email: user.email

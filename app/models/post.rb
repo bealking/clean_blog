@@ -9,6 +9,7 @@ class Post < ApplicationRecord
 
   def search_data
     {
+      object_type: 'post',
       title: title,
       follows_count: follows_count,
       user_email: user.email

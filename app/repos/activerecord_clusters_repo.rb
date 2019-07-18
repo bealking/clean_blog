@@ -12,8 +12,8 @@ class ActiverecordClustersRepo < BlogApp::Repos::ClustersRepo
       end unless user.nil?
 
       array = []
-      array << {_and: [{_type: 'post'}, {_id: ids[:post].uniq}]} if ids[:post].present?
-      array << {_and: [{_type: 'article'}, {_id: ids[:article].uniq}]} if ids[:article].present?
+      array << {_and: [{object_type: 'post'}, {_id: ids[:post].uniq}]} if ids[:post].present?
+      array << {_and: [{object_type: 'article'}, {_id: ids[:article].uniq}]} if ids[:article].present?
       array.size == 2 ? {_or: array} : array.first
     else
       params.to_h.tap{|hash| hash.delete(:page)}.deep_symbolize_keys
@@ -22,6 +22,6 @@ class ActiverecordClustersRepo < BlogApp::Repos::ClustersRepo
     Searchkick.search "*", where: query_params, models: [Article, Post], order: {follows_count: :desc}, page: params[:page], per_page: 5
 
     #result = Searchkick.search "*", where: {follows_count: {gt: 3}}, models: [Article, Post], order: {follows_count: :desc}, page: 1, per_page: 20
-    #result = Searchkick.search "*", where: {user_email: 'beal0829', _or: [_and: [{_type: 'post'}, {_id: [1]}], _and: [{_type: 'article'}, {_id: [1]}]  ]}, models: [Article, Post], order: {follows_count: :desc}, page: 1, per_page: 20
+    #result = Searchkick.search "*", where: { _or: [{_and: [{_type: 'post'}, {id: 1}]},  {_and: [{_type: 'article'}, {id: 2}]} ]}, models: [Article, Post], order: {follows_count: :desc}, page: 1, per_page: 20
   end
 end
