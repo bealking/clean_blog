@@ -76,3 +76,6 @@ body {
   color: #fff;
   margin-right: 10px
 }
+.lead p {
+  font-size: 16px
+}

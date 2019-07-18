@@ -1,6 +1,6 @@
       <div class="page-header">
         <h1 class="text-center"><%= @result.title %></h1>
-        <p class="lead"><%= @result.body %></p>
+        <div class="lead"><%= simple_format(@result.body) %></div>
       </div>
 
 			<h3>评论列表</h3>
