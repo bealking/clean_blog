@@ -25,6 +25,7 @@ class ActiverecordUsersRepo < BlogApp::Repos::UsersRepo
       follow.save
       comment = Comment.find(comment_id)
       comment.commentable.increment!(:follows_count)
+      comment.commentable.reindex
     end
   end
 end
