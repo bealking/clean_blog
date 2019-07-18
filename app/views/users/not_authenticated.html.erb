@@ -68,7 +68,7 @@
         <label htmlFor="inputPassword" className="sr-only">密码</label>
         <input type="password" id="inputPassword" className="form-control" name="password" value={this.state.user.password} onChange={this.handleChange} placeholder="密码" required />
         <p className="help-block"><a href="/users/new">没有账户？立即注册</a></p>
-        <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.handleClick}>提交</button>
+        <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.handleClick}>登录</button>
         <p className="help-block"><span className="text-danger">{this.state.error}</span></p>
       </form>
 			);
