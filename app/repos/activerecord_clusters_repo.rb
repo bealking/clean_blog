@@ -12,13 +12,13 @@ class ActiverecordClustersRepo < BlogApp::Repos::ClustersRepo
       end unless user.nil?
 
       params[:_or] = []
-      params[:_or] << {type: 'post', id: ids[:post].uniq} if ids[:post].present?
-      params[:_or] << {type: 'article', id: ids[:article].uniq} if ids[:article].present?
+      params[:_or] << {_and: [{type: 'post'}, {id: ids[:post].uniq}]} if ids[:post].present?
+      params[:_or] << {_and: [{type: 'article'}, {id: ids[:article].uniq}]} if ids[:article].present?
     end
 
-    Searchkick.search "*", where: params.to_h.tap{|hash| hash.delete(:page)}.deep_symbolize_keys, models: [Article, Post], order: {follows_count: :desc}, page: params[:page], per_page: 20
+    Searchkick.search "*", where: params.to_h.tap{|hash| hash.delete(:page)}.deep_symbolize_keys, models: [Article, Post], order: {follows_count: :desc}, page: params[:page], per_page: 5
 
     #result = Searchkick.search "*", where: {follows_count: {gt: 3}}, models: [Article, Post], order: {follows_count: :desc}, page: 1, per_page: 20
-    #result = Searchkick.search "*", where: {user_email: 'bealking@gmail.com', _or: [{_type: 'post', _id: [1,3]}, {_type: 'article', _id: [1]}]}, models: [Article, Post], order: {follows_count: :desc}, page: 1, per_page: 20
+    #result = Searchkick.search "*", where: {user_email: 'beal0829', _or: [_and: [{_type: 'post'}, {_id: [1]}], _and: [{_type: 'article'}, {_id: [1]}]  ]}, models: [Article, Post], order: {follows_count: :desc}, page: 1, per_page: 20
   end
 end
